@@ -2,26 +2,23 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from movies.views import admin_dashboard  # import your custom dashboard view
+from movies.views import admin_dashboard
 
 urlpatterns = [
-    # ✅ Custom Admin Dashboard (must come first)
-    path('admin/dashboard/', admin_dashboard, name='admin_dashboard'),
+    # ✅ MATCH THIS WITH JAZZMIN
+    path('admin-dashboard/', admin_dashboard, name='admin_dashboard'),
 
-    # Django's built-in admin
+    # Django Admin
     path('admin/', admin.site.urls),
 
-    # User-related routes
+    # Apps
     path('users/', include('users.urls')),
-
-    # Movies app routes
     path('movies/', include('movies.urls')),
 
-    # Homepage → show movie list directly
-    path('', include('users.urls')),   # root handled by users app
+    # Homepage
+    path('', include('movies.urls')),
 ]
 
-# Serve media files during development
+# Media + Static
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,13 +1,40 @@
-# Django
+# Django Python cache
 *.pyc
 __pycache__/
+*.pyo
+*.pyd
+
+# Database
 db.sqlite3
 
-# Environment
+# Django media & static (if generated locally)
+media/
+staticfiles/
+
+# Environment variables
 .env
+.env.*
 
-# Media
-/media/
-
-# Other
+# Logs
 *.log
+
+# Django migrations cache (optional safety)
+**/migrations/__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Testing / coverage
+htmlcov/
+.coverage
+.pytest_cache/
+
+# Distribution / builds
+dist/
+build/
+*.egg-info/

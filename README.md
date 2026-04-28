@@ -1,50 +1,85 @@
-BookMySeat - Movie Booking System
-BookMySeat is a movie ticket booking web application built with Django.  
-It allows users to browse movies, select theaters, reserve seats, complete payments, and view booking confirmations.  
+# 🎬 BookMySeat - Movie Booking System
+
+BookMySeat is a full-stack movie ticket booking web application built with **Django**.  
+It allows users to browse movies, select theaters, reserve seats, complete payments, and receive instant booking confirmations.
 
 ---
 
-Key Features
-1. Browse & Filter Movies – Search by genre, language, or keywords.
+## ✨ Key Features
 
-2. Watch Trailers – View embedded YouTube trailers directly.
+### 🎥 Browse & Filter Movies
+Search movies by genre, language, or keywords.
 
-3. Seat Reservation Timeout – Seats are held for 5 minutes until payment is confirmed.
-If payment succeeds within 5 minutes → seats are booked.
-If payment fails or timeout expires → seats are automatically released.
+### 🎞️ Watch Trailers
+Embedded YouTube trailers for quick previews.
 
-4. Stripe Checkout Integration – Secure online payments with retry option.
+### ⏳ Seat Reservation System
+- Seats are temporarily reserved for **5 minutes**
+- If payment is successful → seats are confirmed
+- If payment fails or times out → seats are automatically released
 
-5. Email Confirmation – Automatic booking confirmation sent to the user’s email.
+### 💳 Stripe Payment Integration
+Secure checkout system using Stripe with retry support.
 
-6. Admin Dashboard – Interactive analytics with Chart.js:
-Total revenue
-Most popular movies
-Busiest theaters
-Detailed tables
+### 📧 Email Notifications
+Automatic booking confirmation emails sent to users.
 
----
-
-Tech Stack
-Backend: Django (Python)
-Frontend: Bootstrap + Chart.js
-Database: SQLite
-Payments: Stripe Checkout
-Email: SendGrid 
+### 📊 Admin Dashboard
+Interactive analytics using Chart.js:
+- Total revenue
+- Most popular movies
+- Busiest theaters
+- Detailed booking tables
 
 ---
 
-IMP Notes
-Staff Access: Every registered user is automatically marked as staff (is_staff=True) for access to the analytics dashboard.
+## 🛠️ Tech Stack
 
-Admin URL: /admin/
+- **Backend:** Django (Python)
+- **Frontend:** Bootstrap, Chart.js
+- **Database:** SQLite
+- **Payments:** Stripe Checkout
+- **Email Service:** SendGrid
 
-Dashboard URL: /admin/dashboard/ shows analytics.
+---
 
-Payment Flow: Use Stripe test cards to simulate transactions.
-✅ Success: 4242 4242 4242 4242
-❌ Failure: 4000 0000 0000 0002
+## ⚙️ Important Notes
 
-Email Confirmation: Check the registered email inbox (and spam folder) for booking details.
+### 👤 Admin Access
+Every registered user is marked as staff (`is_staff=True`) to access dashboard features.
 
-Seat Reservation: Reserved seats auto‑release after 5 minutes if payment is not completed.
+### 🔗 Admin Panel
+
+### 💳 Stripe Test Cards
+- ✅ Success: `4242 4242 4242 4242`
+- ❌ Failure: `4000 0000 0000 0002`
+
+### ⏱️ Seat System
+Reserved seats are automatically released after **5 minutes** if payment is not completed.
+
+### 📧 Email Confirmation
+Check inbox (and spam folder) for booking confirmation emails.
+
+---
+
+## 🚀 Deployment
+
+This project can be deployed on:
+- Render
+- Railway
+- Heroku
+
+---
+
+## 👩‍💻 Author
+
+**Priyanka Yadav**
+
+- GitHub: https://github.com/priyankayadav15  
+- Email: priyanka111010@gmail.com  
+
+---
+
+## 📄 License
+
+This project is for educational and personal use.

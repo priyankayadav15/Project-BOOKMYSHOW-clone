@@ -9,4 +9,6 @@ urlpatterns = [
     path('booking/payment/<int:booking_id>/', views.payment_page, name='payment_page'),
     path('booking/success/<int:booking_id>/', views.booking_success, name='booking_success'),
     path('booking/failed/<int:booking_id>/', views.payment_failed, name='payment_failed'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+
 ]

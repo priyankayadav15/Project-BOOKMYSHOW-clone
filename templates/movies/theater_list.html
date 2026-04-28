@@ -1,136 +1,181 @@
-{% extends "users/basic.html" %} 
+{% extends "users/basic.html" %}
 {% block content %}
+
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    margin: 0;
-    padding: 0;
+body{
+  font-family:'Montserrat',sans-serif;
+}
+
+.main-box{
+  max-width:950px;
+  margin:auto;
+}
+
+.movie-title{
+  text-align:center;
+  font-size:38px;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:35px;
+}
+
+.movie-title span{
+  color:#ff00c8;
+}
+
+.theatre-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  padding:28px;
+  margin-bottom:25px;
+  backdrop-filter:blur(18px);
+  box-shadow:0 0 28px rgba(255,0,200,.10);
+  transition:.3s;
+}
+
+.theatre-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 35px rgba(255,0,200,.20);
+}
+
+.theatre-name{
+  font-size:28px;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:8px;
+}
+
+.ticket-price{
+  color:#d4d4d4;
+  font-size:16px;
+  margin-bottom:20px;
+}
+
+.features{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:22px;
+}
+
+.feature-pill{
+  background:rgba(255,255,255,.06);
+  color:#e8e8e8;
+  padding:10px 14px;
+  border-radius:40px;
+  font-size:14px;
+  font-weight:600;
+}
+
+.show-box{
+  background:rgba(255,255,255,.04);
+  border-radius:18px;
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.show-time{
+  color:#fff;
+  font-size:20px;
+  font-weight:700;
+}
+
+.book-btn{
+  border:none;
+  border-radius:14px;
+  padding:10px 22px;
+  font-weight:700;
+}
+
+.empty-box{
+  text-align:center;
+  padding:60px 20px;
+  color:#ddd;
+}
+
+.notice{
+  margin-top:30px;
+  text-align:center;
+  color:#ffc107;
+  font-weight:700;
+}
+
+@media(max-width:768px){
+  .show-box{
+    gap:15px;
+    justify-content:center;
   }
 
-  .container {
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
+  .movie-title{
+    font-size:30px;
   }
 
-  .movie-title {
-    font-size: 28px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 30px;
-    color: #1e3a8a;
+  .theatre-name{
+    font-size:24px;
   }
-
-  .theatre-card {
-    background: linear-gradient(135deg,#ffffff,#f9fafc);
-    border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    margin-bottom: 25px;
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .theatre-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-  }
-
-  .theatre-header {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #2c3e50;
-  }
-
-  .info-icons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    font-size: 14px;
-    margin-bottom: 15px;
-  }
-
-  .info-icons i {
-    margin-right: 5px;
-  }
-
-  .show-time {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f1f1f1;
-    padding: 12px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-weight: 600;
-  }
-
-  .show-time:hover {
-    background-color: #28a745;
-    color: #fff;
-  }
-
-  .show-time a {
-    text-decoration: none;
-    font-weight: 600;
-    color: #1e3a8a;
-    margin-left: 20px;
-    transition: color 0.3s ease;
-  }
-
-  .show-time:hover a {
-    color: #fff;
-  }
-
-  .non-cancellable {
-    color: #ffc107;
-    font-size: 13px;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-  }
-
-  .non-cancellable i {
-    margin-right: 5px;
-  }
+}
 </style>
 
-<div class="container">
-  <div class="movie-title">🎬 Movie – {{ movie.name }}</div>
+<div class="container py-5">
+  <div class="main-box">
 
-  {% if theaters %}
-    {% for theater in theaters %}
-      <div class="theatre-card">
-        <div class="theatre-header">{{ theater.name }}</div>
-        <p class="text-muted">💰 Ticket Price: ₹{{ theater.ticket_price }}</p>
-        <div class="info-icons">
-          <span><i class="fas fa-mobile-alt text-success"></i> M‑Ticket</span>
-          <span><i class="fas fa-utensils text-warning"></i> Food & Beverage</span>
-          <span><i class="fas fa-parking text-primary"></i> Parking Available</span>
-          <span><i class="fas fa-wheelchair text-info"></i> Wheelchair Access</span>
-          <span><i class="fas fa-glasses text-danger"></i> 3D Show Available</span>
-        </div>
-        <div class="show-time">
-          <span>⏰ {{ theater.time }}</span>
-          <a href="{% url 'book_seats' theater.id %}">Book Now</a>
-        </div>
-      </div>
-    {% endfor %}
-  {% else %}
-    <div class="no-theaters mt-4 text-center">
-      <p class="lead">Sorry, no theaters are available for this movie at the moment.</p>
+    <div class="movie-title">
+      🎬 Now Showing: <span>{{ movie.name }}</span>
     </div>
-  {% endif %}
 
-  <div class="non-cancellable mt-4">
-    <i class="fas fa-circle text-warning"></i> Non‑cancellable
+    {% if theaters %}
+
+      {% for theater in theaters %}
+      <div class="theatre-card">
+
+        <div class="theatre-name">{{ theater.name }}</div>
+
+        <div class="ticket-price">
+          <i class="fas fa-ticket-alt mr-2"></i> Ticket Price: ₹{{ theater.ticket_price }}
+        </div>
+
+        <div class="features">
+          <div class="feature-pill"><i class="fas fa-mobile-alt mr-1 text-success"></i>M-Ticket</div>
+          <div class="feature-pill"><i class="fas fa-utensils mr-1 text-warning"></i>Food</div>
+          <div class="feature-pill"><i class="fas fa-parking mr-1 text-info"></i>Parking</div>
+          <div class="feature-pill"><i class="fas fa-wheelchair mr-1 text-primary"></i>Access</div>
+          <div class="feature-pill"><i class="fas fa-glasses mr-1 text-danger"></i>3D Show</div>
+        </div>
+
+        <div class="show-box">
+          <div class="show-time">
+            <i class="far fa-clock mr-2"></i>{{ theater.time }}
+          </div>
+
+          <a href="{% url 'book_seats' theater.id %}" class="btn btn-primary book-btn">
+            Book Now <i class="fas fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
+
+    {% else %}
+
+      <div class="empty-box">
+        <h3>No theaters available</h3>
+        <p>Please check again later.</p>
+      </div>
+
+    {% endif %}
+
+    <div class="notice">
+      <i class="fas fa-circle mr-2"></i>Non-cancellable Tickets
+    </div>
+
   </div>
 </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 {% endblock %}

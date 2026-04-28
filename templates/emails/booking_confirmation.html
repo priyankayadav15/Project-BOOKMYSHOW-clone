@@ -1,91 +1,228 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Booking Confirmation</title>
-  <style>
-    body {
-      font-family: 'Montserrat', Arial, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    .container {
-      max-width: 640px;
-      margin: 40px auto;
-      background: #ffffff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .header {
-      background: #1e3a8a;
-      color: #ffffff;
-      padding: 25px;
-      text-align: center;
-    }
-    .header h2 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 700;
-    }
-    .content {
-      padding: 25px;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .details {
-      margin: 20px 0;
-      border-collapse: collapse;
-      width: 100%;
-      font-size: 14px;
-    }
-    .details th {
-      background: #f8f9fa;
-      text-align: left;
-      padding: 12px;
-      font-weight: 600;
-      border: 1px solid #e0e0e0;
-    }
-    .details td {
-      padding: 12px;
-      border: 1px solid #e0e0e0;
-    }
-    .footer {
-      background: #f8f9fa;
-      color: #777;
-      font-size: 12px;
-      text-align: center;
-      padding: 15px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmation</title>
+
+<style>
+body{
+margin:0;
+padding:0;
+background:#eef2f7;
+font-family:Arial, Helvetica, sans-serif;
+color:#333333;
+}
+
+.wrapper{
+width:100%;
+padding:30px 15px;
+box-sizing:border-box;
+}
+
+.container{
+max-width:680px;
+margin:auto;
+background:#ffffff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 28px rgba(0,0,0,0.08);
+}
+
+.header{
+background:linear-gradient(135deg,#1e3a8a,#0d6efd);
+padding:35px 25px;
+text-align:center;
+color:#ffffff;
+}
+
+.header h1{
+margin:0;
+font-size:28px;
+}
+
+.header p{
+margin:10px 0 0;
+font-size:15px;
+opacity:0.95;
+}
+
+.content{
+padding:35px 30px;
+}
+
+.hello{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.subtext{
+font-size:15px;
+line-height:1.7;
+color:#666;
+margin-bottom:25px;
+}
+
+.ticket-box{
+border:2px dashed #dce5ff;
+background:#f8fbff;
+border-radius:14px;
+padding:20px;
+margin-bottom:25px;
+}
+
+.section-title{
+font-size:18px;
+font-weight:bold;
+color:#1e3a8a;
+margin-bottom:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+}
+
+th{
+text-align:left;
+padding:12px;
+background:#edf3ff;
+color:#1e3a8a;
+width:42%;
+border-bottom:1px solid #dfe7f5;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #ececec;
+font-weight:500;
+}
+
+.price{
+color:#198754;
+font-weight:bold;
+}
+
+.note{
+margin-top:25px;
+font-size:14px;
+line-height:1.7;
+background:#fff8e6;
+border-left:4px solid #ffc107;
+padding:14px;
+border-radius:8px;
+color:#555;
+}
+
+.footer{
+background:#f8f9fa;
+padding:22px;
+text-align:center;
+font-size:12px;
+color:#777;
+line-height:1.7;
+}
+
+@media only screen and (max-width:600px){
+
+.content{
+padding:25px 18px;
+}
+
+.header h1{
+font-size:24px;
+}
+
+table, th, td{
+font-size:13px;
+}
+
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="header">
-      <h2>🎟️ Your Booking is Confirmed</h2>
-    </div>
-    <div class="content">
-      <p>Hi <strong>{{ user_name }}</strong>,</p>
-      <p>Thank you for booking with <strong>BookMySeat</strong>. Here are your ticket details:</p>
 
-      <table class="details">
-        <tr><th>Movie</th><td>{{ movie_name }}</td></tr>
-        <tr><th>Theater</th><td>{{ theater_name }}</td></tr>
-        <tr><th>Date</th><td>{{ show_date }}</td></tr>
-        <tr><th>Time</th><td>{{ show_time }}</td></tr>
-        <tr><th>Seats</th><td>{{ seat_numbers }}</td></tr>
-        <tr><th>Ticket Price (per seat)</th><td>₹{{ ticket_price }}</td></tr>
-        <tr><th>Total Price</th><td>₹{{ total_price }}</td></tr>
-      </table>
+<div class="wrapper">
+<div class="container">
 
-      <p>We look forward to seeing you at the show!</p>
-    </div>
-    <div class="footer">
-      <p>&copy; 2026 BookMySeat. All rights reserved.</p>
-      <p>This is an automated email. Please do not reply.</p>
-    </div>
-  </div>
+<div class="header">
+<h1>🎟️ Booking Confirmed</h1>
+<p>Your movie tickets are successfully booked</p>
+</div>
+
+<div class="content">
+
+<div class="hello">
+Hi {{ user_name }},
+</div>
+
+<div class="subtext">
+Thank you for choosing <strong>BookMySeat</strong>.  
+Your booking has been confirmed. Here are your ticket details:
+</div>
+
+<div class="ticket-box">
+
+<div class="section-title">
+🎬 Ticket Details
+</div>
+
+<table>
+<tr>
+<th>Movie</th>
+<td>{{ movie_name }}</td>
+</tr>
+
+<tr>
+<th>Theater</th>
+<td>{{ theater_name }}</td>
+</tr>
+
+<tr>
+<th>Date</th>
+<td>{{ show_date }}</td>
+</tr>
+
+<tr>
+<th>Time</th>
+<td>{{ show_time }}</td>
+</tr>
+
+<tr>
+<th>Seats</th>
+<td>{{ seat_numbers }}</td>
+</tr>
+
+<tr>
+<th>Price / Seat</th>
+<td class="price">₹{{ ticket_price }}</td>
+</tr>
+
+<tr>
+<th>Total Amount</th>
+<td class="price">₹{{ total_price }}</td>
+</tr>
+</table>
+
+</div>
+
+<div class="note">
+Please arrive at least <strong>15 minutes early</strong>.  
+Carry this email or booking ID at the theater entrance.
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 BookMySeat. All rights reserved.<br>
+This is an automated email. Please do not reply.
+</div>
+
+</div>
+</div>
+
 </body>
 </html>
