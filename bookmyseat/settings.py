@@ -13,22 +13,19 @@ env_path = os.path.join(BASE_DIR, ".env")
 # Load env
 load_dotenv(dotenv_path=env_path, override=True)
 
+# =====================
 # SECURITY
+# =====================
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG", "True") == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "bookmyseat-3wse.onrender.com",
-    ".vercel.app"
-]
+ALLOWED_HOSTS = ["*"]  # safe for deployment
 
 # =====================
 # APPLICATIONS
 # =====================
 INSTALLED_APPS = [
-    'jazzmin',   # ✅ MUST be first
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +42,7 @@ INSTALLED_APPS = [
 # =====================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ added
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,7 +54,7 @@ MIDDLEWARE = [
 AUTH_USER_MODEL = 'auth.User'
 
 # =====================
-# EMAIL (SENDGRID)
+# EMAIL
 # =====================
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.sendgrid.net"
@@ -139,6 +137,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # ✅ added
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # =====================
@@ -156,7 +156,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # =====================
-# JAZZMIN (🔥 ALWAYS ACTIVE)
+# JAZZMIN
 # =====================
 JAZZMIN_SETTINGS = {
     "site_title": "BookMySeat Admin",
@@ -164,16 +164,13 @@ JAZZMIN_SETTINGS = {
     "site_brand": "BookMySeat",
     "welcome_sign": "Welcome to BookMySeat Admin",
 
-    # ✅ LOGO (put inside static/images/logo.png)
     "site_logo": "images/logo.png",
 
-    # ✅ TOP MENU (THIS FIXES YOUR PROBLEM)
     "topmenu_links": [
         {"name": "Dashboard", "url": "/admin-dashboard/"},
         {"name": "Home", "url": "/"},
     ],
 
-    # ✅ ICONS
     "icons": {
         "movies.movie": "fas fa-film",
         "movies.theater": "fas fa-building",
