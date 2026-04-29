@@ -1,0 +1,222 @@
+{% extends "users/basic.html" %}
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+body{
+  font-family:'Montserrat',sans-serif;
+}
+
+.page-title{
+  text-align:center;
+  font-size:42px;
+  font-weight:700;
+  margin-bottom:35px;
+  color:#fff;
+}
+
+.filter-box{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:22px;
+  backdrop-filter:blur(18px);
+  box-shadow:0 0 30px rgba(255,0,200,.12);
+}
+
+.filter-box label{
+  color:#fff;
+  font-weight:600;
+}
+
+.filter-box .form-control{
+  background:rgba(255,255,255,.06);
+  border:none;
+  color:#fff;
+  border-radius:14px;
+}
+
+.filter-box .form-control:focus{
+  box-shadow:0 0 0 3px rgba(255,0,200,.15);
+}
+
+.search-btn{
+  border:none;
+  border-radius:14px;
+  padding:10px 20px;
+  font-weight:700;
+}
+
+.movie-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  overflow:hidden;
+  backdrop-filter:blur(16px);
+  box-shadow:0 0 25px rgba(255,0,200,.10);
+  transition:.3s;
+  height:100%;
+}
+
+.movie-card:hover{
+  transform:translateY(-7px);
+  box-shadow:0 0 30px rgba(255,0,200,.20);
+}
+
+.movie-poster{
+  height:260px;
+  width:100%;
+  object-fit:contain;
+  background:#111;
+  padding:12px;
+}
+
+.movie-body{
+  padding:20px;
+}
+
+.movie-title{
+  color:#fff;
+  font-size:22px;
+  font-weight:700;
+}
+
+.movie-text{
+  color:#cfcfcf;
+  margin-bottom:8px;
+}
+
+.movie-footer{
+  padding:0 20px 20px;
+}
+
+.btn-watch,
+.btn-theater{
+  border-radius:14px;
+  font-weight:700;
+}
+
+.empty-box{
+  text-align:center;
+  padding:60px 20px;
+  color:#d4d4d4;
+}
+</style>
+
+<div class="container py-5">
+
+  <div class="page-title">🎬 Movies</div>
+
+  <!-- Filter -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-11">
+      <div class="filter-box">
+
+        <form method="GET" action="{% url 'movie_list' %}">
+          <div class="form-row align-items-end">
+
+            <div class="col-md-2 mb-3">
+              <label>Genre</label>
+              <select name="genre" class="form-control" onchange="this.form.submit()">
+                <option {% if not selected_genre or selected_genre == 'All' %}selected{% endif %}>All</option>
+                <option {% if selected_genre == 'Fantasy' %}selected{% endif %}>Fantasy</option>
+                <option {% if selected_genre == 'Romance' %}selected{% endif %}>Romance</option>
+                <option {% if selected_genre == 'Sports' %}selected{% endif %}>Sports</option>
+                <option {% if selected_genre == 'Comedy' %}selected{% endif %}>Comedy</option>
+                <option {% if selected_genre == 'Drama' %}selected{% endif %}>Drama</option>
+              </select>
+            </div>
+
+            <div class="col-md-2 mb-3">
+              <label>Language</label>
+              <select name="language" class="form-control" onchange="this.form.submit()">
+                <option {% if not selected_language or selected_language == 'All' %}selected{% endif %}>All</option>
+                <option {% if selected_language == 'English' %}selected{% endif %}>English</option>
+                <option {% if selected_language == 'Hindi' %}selected{% endif %}>Hindi</option>
+                <option {% if selected_language == 'French' %}selected{% endif %}>French</option>
+                <option {% if selected_language == 'Marathi' %}selected{% endif %}>Marathi</option>
+                <option {% if selected_language == 'Spanish' %}selected{% endif %}>Spanish</option>
+              </select>
+            </div>
+
+            <div class="col-md-8 mb-3">
+              <label>Search</label>
+              <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       name="search"
+                       value="{{ search_query|default_if_none:'' }}"
+                       placeholder="Search Movies...">
+
+                <div class="input-group-append">
+                  <button class="btn btn-primary search-btn" type="submit">
+                    <i class="fas fa-search mr-1"></i> Search
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Movies -->
+  <div class="row">
+
+    {% for movie in movies %}
+    <div class="col-md-4 mb-4">
+
+      <div class="movie-card">
+
+        <img src="{{ movie.image.url }}" class="movie-poster" alt="{{ movie.name }}">
+
+        <div class="movie-body">
+          <div class="movie-title">{{ movie.name }}</div>
+
+          <p class="movie-text">
+            <i class="fas fa-star text-warning"></i> {{ movie.rating }}
+          </p>
+
+          <p class="movie-text">
+            <i class="fas fa-users"></i> {{ movie.cast }}
+          </p>
+
+          {% if movie.trailer_url %}
+          <a href="{{ movie.trailer_url }}" target="_blank"
+             class="btn btn-danger btn-sm btn-watch mt-2">
+             <i class="fas fa-play-circle mr-1"></i> Watch Trailer
+          </a>
+          {% endif %}
+        </div>
+
+        <div class="movie-footer">
+          <a href="{% url 'theater_list' movie.id %}"
+             class="btn btn-outline-light btn-block btn-theater">
+             View Theaters <i class="fas fa-chevron-right ml-1"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+    {% empty %}
+
+    <div class="col-12">
+      <div class="empty-box">
+        <h3>No movies found</h3>
+        <p>Try another search or filter.</p>
+      </div>
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+{% endblock %}

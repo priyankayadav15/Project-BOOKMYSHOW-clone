@@ -1,0 +1,234 @@
+{% extends "users/basic.html" %}
+{% load static %}
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    font-family:'Montserrat',sans-serif;
+    background:#0f172a;
+    color:white;
+}
+
+.dashboard-title{
+    text-align:center;
+    font-weight:700;
+    margin-bottom:30px;
+    background:linear-gradient(45deg,#ec4899,#8b5cf6);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* FILTER BAR */
+.filter-bar{
+    background:#1e293b;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:25px;
+}
+
+/* CARDS */
+.stat-card{
+    background:#1e293b;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    transition:0.3s;
+}
+.stat-card:hover{
+    transform:translateY(-5px);
+    background:#334155;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:700;
+}
+
+/* CHART BOX */
+.chart-box{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+/* TABLE */
+.table{
+    color:white;
+}
+.table tr:hover{
+    background:#1e293b;
+}
+
+/* INSIGHTS */
+.insight-box{
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+}
+</style>
+
+<div class="container py-4">
+
+    <h2 class="dashboard-title">🚀 Admin Analytics Dashboard</h2>
+
+    <!-- 🔍 FILTERS -->
+    <div class="filter-bar text-center">
+        <small>📅 Showing Last 7 Days Analytics</small>
+    </div>
+
+    <!-- 📊 STATS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>Users</div>
+                <div class="stat-number">{{ total_users }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>Bookings</div>
+                <div class="stat-number">{{ total_bookings }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>Movies</div>
+                <div class="stat-number">{{ total_movies }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div>Revenue</div>
+                <div class="stat-number">₹{{ total_revenue }}</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 📈 MAIN ANALYTICS -->
+    <div class="row">
+
+        <div class="col-md-8">
+            <div class="chart-box">
+                <h6>📈 Revenue Trend</h6>
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="chart-box">
+                <h6>📊 Booking Trend</h6>
+                <canvas id="bookingChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 🎬 POPULAR -->
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="chart-box">
+                <h6>🔥 Popular Movies</h6>
+                <canvas id="moviesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="chart-box">
+                <h6>🏢 Theater Performance</h6>
+                <canvas id="theaterChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 🧠 AI INSIGHTS -->
+    <div class="insight-box text-center">
+        <h5>🧠 Insights</h5>
+        <p>
+            📈 Your bookings increased over last week<br>
+            🎬 Top movie is <b>{{ movie_labels.0 }}</b><br>
+            💰 Revenue growing steadily 🚀
+        </p>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const days = JSON.parse('{{ days_labels|safe }}');
+const revenue = JSON.parse('{{ revenue_data|safe }}');
+const bookings = JSON.parse('{{ booking_trend|safe }}');
+
+const movieLabels = JSON.parse('{{ movie_labels|safe }}');
+const movieData = JSON.parse('{{ movie_data|safe }}');
+
+const theaterLabels = JSON.parse('{{ theater_labels|safe }}');
+const theaterData = JSON.parse('{{ theater_data|safe }}');
+
+
+// 📈 Revenue Line Chart
+new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+        labels: days,
+        datasets: [{
+            label: 'Revenue',
+            data: revenue,
+            borderColor: '#ec4899',
+            tension: 0.4
+        }]
+    }
+});
+
+
+// 📊 Booking Chart
+new Chart(document.getElementById('bookingChart'), {
+    type: 'bar',
+    data: {
+        labels: days,
+        datasets: [{
+            data: bookings,
+            backgroundColor: '#8b5cf6'
+        }]
+    }
+});
+
+
+// 🎬 Movies
+new Chart(document.getElementById('moviesChart'), {
+    type: 'bar',
+    data: {
+        labels: movieLabels,
+        datasets: [{
+            data: movieData,
+            backgroundColor: '#22c55e'
+        }]
+    }
+});
+
+
+// 🏢 Theater
+new Chart(document.getElementById('theaterChart'), {
+    type: 'doughnut',
+    data: {
+        labels: theaterLabels,
+        datasets: [{
+            data: theaterData
+        }]
+    }
+});
+
+</script>
+
+{% endblock %}
